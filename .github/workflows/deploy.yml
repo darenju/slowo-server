@@ -1,5 +1,8 @@
-name: deploy
-on: [push]
+name: CI
+on:
+  push:
+    branches:
+      - master
 jobs:
   install-dependencies:
     runs-on: ubuntu-latest
@@ -9,4 +12,11 @@ jobs:
         with:
           node-version: '16'
       - run: npm ci
-      - run: node index.js
+      - name: Deployment
+        uses: burnett01/rsync-deployments@5.2
+        with:
+          switches: -avzr --delete
+          remote_path: /var/www/server
+          remote_host: frad.in
+          remote_user: rsync
+          remote_key: ${{ secrets.RSYNC_SSH_KEY }}
