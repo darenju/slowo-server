@@ -1,30 +1,25 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+
 const path = require('path');
 const appPath = path.join(__dirname, '../app');
+const publicKey = 'BKm7_fQLPq7nKyXFSuuNI_jGvXceFgDkAITO7LTDeRQ50efW1oW5qfZcMR88_lRBwupu5Xl5i17bX_K1uBnUpJ4';
+
 const app = express();
-const words = require('./words.json');
 
 app.use(express.static(appPath));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.sendFile(appPath + '/index.html');
 });
 
 const apiRouter = express.Router();
-const apiRoutes = ((app) => {
-  app.get('/random', (req, res) => {
-    const rand = Math.floor(Math.random() * (words.length + 1));
-    res.json(words[rand]);
-  });
-
-  return app;
-})(apiRouter, {});
-app.use('/api', apiRoutes);
+app.use('/api', require('./api')(apiRouter));
 
 app.listen(4000, () => {
   console.log('Ready.');
-  console.log(`Found ${words.length} words in dictionnary.`);
 });
