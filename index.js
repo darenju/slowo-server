@@ -1,15 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const path = __dirname + '/app';
+const path = require('path');
+const appPath = path.join(__dirname, '../app');
 const app = express();
 const words = require('./words.json');
 
-app.use(express.static(path));
+app.use(express.static(appPath));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  res.sendFile(path + '/index.html');
+  res.sendFile(appPath + '/index.html');
 });
 
 const apiRouter = express.Router();
