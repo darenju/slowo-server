@@ -4,7 +4,6 @@ const cors = require('cors');
 
 const path = require('path');
 const appPath = path.join(__dirname, '../app');
-const publicKey = 'BKm7_fQLPq7nKyXFSuuNI_jGvXceFgDkAITO7LTDeRQ50efW1oW5qfZcMR88_lRBwupu5Xl5i17bX_K1uBnUpJ4';
 
 const app = express();
 
