@@ -7,11 +7,18 @@ module.exports = function(app) {
   });
 
   app.get('/today', (req, res) => {
-    const now = new Date();
-    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const timestamp = startOfDay / 1000;
-    const index = timestamp % words.length;
-    res.json(words[index]);
+    const date = new Date();
+    const random = (date.getFullYear() * date.getDate() * (date.getMonth() + 1)) % words.length;
+    res.json({
+      timestamp: random,
+      data: words[random],
+    });
+  });
+
+  app.get('/word', (req, res) => {
+    const { word } = req.query;
+    const found = words.find((w) => w.word === word);
+    res.json(found);
   });
 
   return app;
