@@ -1,4 +1,4 @@
-const sqlite3 = require('sqlite3');
+import sqlite3 from 'sqlite3';
 
 function getDb() {
   return new sqlite3.Database('db.sqlite');

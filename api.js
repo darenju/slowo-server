@@ -1,25 +1,20 @@
-const words = require('./words.json');
+import express from 'express';
+import words from './words.json' assert {type: 'json'};
+import random from './api/random.js';
+import today from './api/today.js';
+import word from './api/word.js';
 
-module.exports = function(app) {
-  app.get('/random', (req, res) => {
-    const rand = Math.floor(Math.random() * (words.length + 1));
-    res.json(words[rand]);
-  });
-
-  app.get('/today', (req, res) => {
-    const date = new Date();
-    const random = (date.getFullYear() * date.getDate() * (date.getMonth() + 1)) % words.length;
-    res.json({
-      timestamp: random,
-      data: words[random],
-    });
-  });
-
-  app.get('/word', (req, res) => {
-    const { word } = req.query;
-    const found = words.find((w) => w.word === word);
-    res.json(found);
-  });
+/**
+ *
+ * @param {Express} app The Express app
+ * @returns {Express}
+ */
+const createApi = (app) => {
+  app.get('/random', random);
+  app.get('/today', today);
+  app.get('/word', word);
 
   return app;
 };
+
+export default createApi;
