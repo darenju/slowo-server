@@ -1,12 +1,14 @@
-import words from '../words.json' assert {type: 'json'};
-
-/**
- * @param {Request} req
- * @param {Response} res
- */
-const random = (req, res) => {
-  const rand = Math.floor(Math.random() * (words.length + 1));
-  res.json(words[rand]);
-};
+const random = (words) => (
+  /**
+   *
+   * @param {Request} req The Express Request object
+   * @param {Response} res The Express Response object
+   * @returns
+   */
+  (req, res) => {
+    const rand = Math.floor(Math.random() * (words.length + 1));
+    res.json(words[rand]);
+  }
+);
 
 export default random;

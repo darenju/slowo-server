@@ -1,8 +1,8 @@
-import express from 'express';
-import words from './words.json' assert {type: 'json'};
+import fs from 'fs';
 import random from './api/random.js';
 import today from './api/today.js';
 import word from './api/word.js';
+import search from './api/search.js';
 
 /**
  *
@@ -10,9 +10,14 @@ import word from './api/word.js';
  * @returns {Express}
  */
 const createApi = (app) => {
-  app.get('/random', random);
-  app.get('/today', today);
-  app.get('/word', word);
+  const words = JSON.parse(
+    fs.readFileSync('./words.json').toString()
+  );
+
+  app.get('/random', random(words));
+  app.get('/today', today(words));
+  app.get('/word', word(words));
+  app.get('/search', search(words));
 
   return app;
 };
